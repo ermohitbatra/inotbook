@@ -7,7 +7,8 @@ const AddNote = () => {
   const { addNote } = context;
   const submit = (e) => {
     e.preventDefault();
-    addNote(note);
+    addNote(note.title, note.description, note.tag);
+    setNotes({ title: "", description: "", tag: "" })
   };
   const [note, setNotes] = useState({ title: "", description: "", tag: "" });
   const onChange = (e) => {
@@ -28,6 +29,7 @@ const AddNote = () => {
             name="title"
             aria-describedby="emailHelp"
             onChange={onChange}
+            value={note.title}
           />
         </div>
         <div className="mb-3">
@@ -40,6 +42,7 @@ const AddNote = () => {
             id="description"
             name="description"
             onChange={onChange}
+            value={note.description}
           />
         </div>
         <div className="mb-3">
@@ -52,6 +55,7 @@ const AddNote = () => {
             id="tag"
             name="tag"
             onChange={onChange}
+            value={note.tag}
           />
         </div>
         <button type="submit" className="btn btn-primary" onClick={submit}>
