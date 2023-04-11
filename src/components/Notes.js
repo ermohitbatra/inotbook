@@ -2,9 +2,13 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import noteContext from "../context/notes/noteContext";
 import NoteItem from "./NoteItem";
 import AddNote from "./AddNote";
+import alertContext from "../context/alert/alertContext";
+import { useNavigate } from 'react-router-dom'
 
 const Notes = () => {
   const context = useContext(noteContext);
+  const alertcontext = useContext(alertContext);
+  let history = useNavigate();
   const ref = useRef();
   const refClose = useRef();
   const { notes, getNotes, editNote } = context;
@@ -24,9 +28,16 @@ const Notes = () => {
   const submit = (e) => {
     editNote(note.id,note.etitle, note.edescription, note.etag);
     refClose.current.click();
+    alertcontext.showAlert("Note Updated successfully", "success");
   };
   useEffect(() => {
-    getNotes();
+    if(localStorage.getItem('token'))
+    {
+      getNotes();
+    }
+    else{
+      history("/login");
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
